@@ -276,7 +276,7 @@ class SQLiteDB(BaseDB):
             previous_table = self.table
 
         self._db.execute(
-            """CREATE TABLE IF NOT EXISTS '%s'
+            """CREATE TABLE IF NOT EXISTS ?
                 (msg_id text PRIMARY KEY,
                 header dict text,
                 metadata dict text,
@@ -299,9 +299,8 @@ class SQLiteDB(BaseDB):
                 error text,
                 stdout text,
                 stderr text)
-                """
-            % self.table
-        )
+                """, 
+        (self.table, ))
         self._db.commit()
 
     def _dict_to_list(self, d):
