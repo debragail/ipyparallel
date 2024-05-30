@@ -49,7 +49,7 @@ if __name__ == '__main__':
     if not os.path.exists('davinci.txt'):
         # download from project gutenberg
         print("Downloading Da Vinci's notebooks from Project Gutenberg")
-        r = requests.get(davinci_url)
+        r = requests.get(davinci_url, timeout=60)
         with io.open('davinci.txt', 'w', encoding='utf8') as f:
             f.write(r.text)
 

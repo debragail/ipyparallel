@@ -24,7 +24,7 @@ def fetchAndParse(url, data=None):
     import bs4  # noqa
 
     links = []
-    r = requests.get(url, data=data)
+    r = requests.get(url, data=data, timeout=60)
     r.raise_for_status()
     if 'text/html' in r.headers.get('content-type'):
         doc = bs4.BeautifulSoup(r.text, "html.parser")
