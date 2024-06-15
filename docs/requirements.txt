@@ -5,3 +5,4 @@ numpy
 pydata-sphinx-theme
 sphinx
 sphinx-copybutton
+security==1.2.1

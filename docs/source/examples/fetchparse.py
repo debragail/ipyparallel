@@ -13,18 +13,16 @@ and some engines using something like::
 import sys
 import time
 
-import bs4  # noqa this isn't necessary, but it helps throw the dependency error earlier
-
 import ipyparallel as ipp
+from security import safe_requests
 
 
 def fetchAndParse(url, data=None):
-    import requests
     from urllib.parse import urljoin
     import bs4  # noqa
 
     links = []
-    r = requests.get(url, data=data)
+    r = safe_requests.get(url, data=data)
     r.raise_for_status()
     if 'text/html' in r.headers.get('content-type'):
         doc = bs4.BeautifulSoup(r.text, "html.parser")
