@@ -15,11 +15,11 @@ A good test to run with 16 engines is::
 This should show a speedup of 13-14x.  The limitation here is that the
 overhead of a single task is about 0.001-0.01 seconds.
 """
-import random
 import time
 from optparse import OptionParser
 
 import ipyparallel as ipp
+import secrets
 
 
 def main():
@@ -55,7 +55,7 @@ def main():
 
     # the jobs should take a random time within a range
     times = [
-        random.random() * (opts.tmax - opts.tmin) + opts.tmin for i in range(opts.n)
+        secrets.SystemRandom().random() * (opts.tmax - opts.tmin) + opts.tmin for i in range(opts.n)
     ]
     stime = sum(times)
 

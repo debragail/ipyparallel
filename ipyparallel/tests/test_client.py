@@ -27,6 +27,7 @@ from ipyparallel import error
 from ipyparallel import Reference
 from ipyparallel.client import client as clientmod
 from ipyparallel.util import utc
+import secrets
 
 
 @pytest.mark.usefixtures('ipython')
@@ -383,9 +384,8 @@ class TestClient(ClusterTestCase):
 
     def test_resubmit(self):
         def f():
-            import random
 
-            return random.random()
+            return secrets.SystemRandom().random()
 
         v = self.client.load_balanced_view()
         ar = v.apply_async(f)
@@ -414,9 +414,8 @@ class TestClient(ClusterTestCase):
         """resubmit shouldn't clobber the whole header"""
 
         def f():
-            import random
 
-            return random.random()
+            return secrets.SystemRandom().random()
 
         v = self.client.load_balanced_view()
         v.retries = 1
@@ -439,9 +438,8 @@ class TestClient(ClusterTestCase):
 
     def test_resubmit_aborted(self):
         def f():
-            import random
 
-            return random.random()
+            return secrets.SystemRandom().random()
 
         v = self.client.load_balanced_view()
         # restrict to one engine, so we can put a sleep
