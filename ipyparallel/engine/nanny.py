@@ -33,6 +33,7 @@ from zmq.eventloop.zmqstream import ZMQStream
 from ipyparallel import error
 from ipyparallel import util
 from ipyparallel.util import local_logger
+from security import safe_command
 
 
 class KernelNanny:
@@ -275,8 +276,7 @@ def start_nanny(**kwargs):
 
     env = os.environ.copy()
     env['PYTHONUNBUFFERED'] = '1'
-    p = Popen(
-        [sys.executable, '-m', __name__],
+    p = safe_command.run(Popen, [sys.executable, '-m', __name__],
         stdin=PIPE,
         stdout=PIPE,
         env=env,
