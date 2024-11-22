@@ -15,6 +15,7 @@ from ipyparallel.cluster.launcher import ipengine_cmd_argv
 from ipyparallel.cluster.launcher import LocalProcessLauncher
 from ipyparallel.cluster.launcher import ProcessStateError
 from ipyparallel.cluster.launcher import SIGKILL
+from security import safe_command
 
 # Copyright (c) IPython Development Team.
 # Distributed under the terms of the Modified BSD License.
@@ -31,7 +32,7 @@ class TestProcessLauncher(LocalProcessLauncher):
         if self.state == 'before':
             # Store stdout & stderr to show with failing tests.
             # This is defined in IPython.testing.iptest
-            self.process = Popen(self.args, env=os.environ, cwd=self.work_dir)
+            self.process = safe_command.run(Popen, self.args, env=os.environ, cwd=self.work_dir)
             self.notify_start(self.process.pid)
             self.poll = self.process.poll
         else:

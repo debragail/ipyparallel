@@ -14,6 +14,7 @@ import pytest
 from traitlets.config import Config
 
 from ipyparallel.cluster import launcher as launcher_mod
+from security import safe_command
 
 # -------------------------------------------------------------------------------
 # TestCase Mixins
@@ -138,7 +139,7 @@ def test_ssh_remote_profile_dir(ssh_launcher, profile_dir):
 
 
 def test_ssh_waitpid(capsys):
-    proc = Popen([sys.executable, '-c', 'import time; time.sleep(1)'])
+    proc = safe_command.run(Popen, [sys.executable, '-c', 'import time; time.sleep(1)'])
     pid = proc.pid
 
     def _wait_one(timeout):
