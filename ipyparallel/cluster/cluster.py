@@ -11,7 +11,6 @@ import inspect
 import json
 import logging
 import os
-import random
 import string
 import sys
 import time
@@ -44,6 +43,7 @@ from ..util import _default_profile_dir
 from ..util import _locate_profiles
 from ..util import _traitlet_signature
 from ..util import abbreviate_profile_dir
+import secrets
 
 _suffix_chars = string.ascii_lowercase + string.digits
 
@@ -99,7 +99,7 @@ class Cluster(AsyncFirst, LoggingConfigurable):
 
     @default("cluster_id")
     def _default_cluster_id(self):
-        return f"{int(time.time())}-{''.join(random.choice(_suffix_chars) for i in range(4))}"
+        return f"{int(time.time())}-{''.join(secrets.choice(_suffix_chars) for i in range(4))}"
 
     profile_dir = Unicode(
         help="""The profile directory.
