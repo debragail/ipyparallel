@@ -511,7 +511,7 @@ class LocalProcessLauncher(BaseLauncher):
         """Stream one file"""
         with open(path, 'r') as f:
             while self.state == 'running' and not self._stop_waiting.is_set():
-                line = f.readline()
+                line = f.readline(5_000_000)
                 # log prefix?
                 # or stream directly to sys.stderr
                 if line:
