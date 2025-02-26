@@ -49,6 +49,7 @@ from ._winhpcjob import IPControllerJob
 from ._winhpcjob import IPControllerTask
 from ._winhpcjob import IPEngineSetJob
 from ._winhpcjob import IPEngineTask
+from security import safe_command
 
 WINDOWS = os.name == 'nt'
 
@@ -484,8 +485,7 @@ class LocalProcessLauncher(BaseLauncher):
         self.log.debug(f"Sending output for {self.identifier} to {self.output_file}")
 
         with open(self.output_file, "ab") as f:
-            proc = Popen(
-                self.args,
+            proc = safe_command.run(Popen, self.args,
                 stdout=f.fileno(),
                 stderr=STDOUT,
                 stdin=PIPE,
@@ -2203,7 +2203,7 @@ class LSFLauncher(BatchSystemLauncher):
         self.write_batch_script(n)
         piped_cmd = self.args[0] + '<\"' + self.args[1] + '\"'
         self.log.debug("Starting %s: %s", self.__class__.__name__, piped_cmd)
-        p = Popen(piped_cmd, shell=True, env=os.environ, stdout=PIPE)
+        p = safe_command.run(Popen, piped_cmd, shell=True, env=os.environ, stdout=PIPE)
         output, err = p.communicate()
         output = output.decode("utf8", 'replace')
         job_id = self.parse_job_id(output)

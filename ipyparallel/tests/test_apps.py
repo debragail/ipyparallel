@@ -23,6 +23,7 @@ from zmq.eventloop import zmqstream
 
 import ipyparallel as ipp
 import ipyparallel.engine.app
+from security import safe_command
 
 
 def _get_output(cmd):
@@ -204,8 +205,7 @@ def test_ipcluster_start_stop(request, ipython_dir, daemonize):
     start_args = ["-n", str(n)]
     if daemonize:
         start_args.append("--daemonize")
-    start = Popen(
-        [sys.executable, "-m", "ipyparallel.cluster", "start", "--debug"] + start_args
+    start = safe_command.run(Popen, [sys.executable, "-m", "ipyparallel.cluster", "start", "--debug"] + start_args
     )
     request.addfinalizer(start.terminate)
     if daemonize:
