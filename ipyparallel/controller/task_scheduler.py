@@ -1,7 +1,5 @@
 import time
 from collections import deque
-from random import randint
-from random import random
 from types import FunctionType
 
 import zmq
@@ -16,6 +14,7 @@ from ipyparallel import Dependency
 from ipyparallel import error
 from ipyparallel import util
 from ipyparallel.controller.scheduler import Scheduler
+import secrets
 
 try:
     import numpy
@@ -30,7 +29,7 @@ except ImportError:
 def plainrandom(loads):
     """Plain random pick."""
     n = len(loads)
-    return randint(0, n - 1)
+    return secrets.SystemRandom().randint(0, n - 1)
 
 
 def lru(loads):
@@ -51,8 +50,8 @@ def twobin(loads):
     Assumes LRU ordering of loads, with oldest first.
     """
     n = len(loads)
-    a = randint(0, n - 1)
-    b = randint(0, n - 1)
+    a = secrets.SystemRandom().randint(0, n - 1)
+    b = secrets.SystemRandom().randint(0, n - 1)
     return min(a, b)
 
 
@@ -65,8 +64,8 @@ def weighted(loads):
     weights = 1.0 / (1e-6 + numpy.array(loads))
     sums = weights.cumsum()
     t = sums[-1]
-    x = random() * t
-    y = random() * t
+    x = secrets.SystemRandom().random() * t
+    y = secrets.SystemRandom().random() * t
     idx = 0
     idy = 0
     while sums[idx] < x:
