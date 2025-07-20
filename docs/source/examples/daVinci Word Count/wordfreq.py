@@ -1,4 +1,5 @@
 """Count the frequencies of words in a string"""
+import secrets
 
 
 def wordfreq(text, is_filename=False):
@@ -39,7 +40,6 @@ def wordfreq_to_weightsize(
 
 def tagcloud(worddict, n=10, minsize=25, maxsize=50, minalpha=0.5, maxalpha=1.0):
     from matplotlib import pyplot as plt
-    import random
 
     worddict = wordfreq_to_weightsize(worddict, minsize, maxsize, minalpha, maxalpha)
 
@@ -57,8 +57,8 @@ def tagcloud(worddict, n=10, minsize=25, maxsize=50, minalpha=0.5, maxalpha=1.0)
     for alpha, size, word in items[:n]:
         # xpos = random.normalvariate(0.5, 0.3)
         # ypos = random.normalvariate(0.5, 0.3)
-        xpos = random.uniform(0.0, 1.0)
-        ypos = random.uniform(0.0, 1.0)
+        xpos = secrets.SystemRandom().uniform(0.0, 1.0)
+        ypos = secrets.SystemRandom().uniform(0.0, 1.0)
         ax.text(xpos, ypos, word.lower(), alpha=alpha, fontsize=size)
     ax.autoscale_view()
     return ax

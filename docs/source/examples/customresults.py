@@ -9,9 +9,9 @@ Authors
 -------
 * MinRK
 """
-import random
 
 import ipyparallel as ipp
+import secrets
 
 # create client & views
 rc = ipp.Client()
@@ -34,7 +34,7 @@ def sleep_here(count, t):
     return count, t
 
 
-amr = v.map(sleep_here, range(100), [random.random() for i in range(100)], chunksize=2)
+amr = v.map(sleep_here, range(100), [secrets.SystemRandom().random() for i in range(100)], chunksize=2)
 
 pending = set(amr.msg_ids)
 while pending:

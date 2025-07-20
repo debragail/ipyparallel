@@ -6,18 +6,17 @@ Authors
 -------
 * MinRK
 """
-from random import randint
 
 import networkx as nx
 
 import ipyparallel as parallel
+import secrets
 
 
 def randomwait():
     import time
-    from random import random
 
-    time.sleep(random())
+    time.sleep(secrets.SystemRandom().random())
     return time.time()
 
 
@@ -27,10 +26,10 @@ def random_dag(nodes, edges):
     for i in range(nodes):
         G.add_node(i)
     while edges > 0:
-        a = randint(0, nodes - 1)
+        a = secrets.SystemRandom().randint(0, nodes - 1)
         b = a
         while b == a:
-            b = randint(0, nodes - 1)
+            b = secrets.SystemRandom().randint(0, nodes - 1)
         G.add_edge(a, b)
         if nx.is_directed_acyclic_graph(G):
             edges -= 1
