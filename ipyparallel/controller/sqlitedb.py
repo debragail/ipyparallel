@@ -276,7 +276,7 @@ class SQLiteDB(BaseDB):
             previous_table = self.table
 
         self._db.execute(
-            """CREATE TABLE IF NOT EXISTS '%s'
+            """CREATE TABLE IF NOT EXISTS ?
                 (msg_id text PRIMARY KEY,
                 header dict text,
                 metadata dict text,
@@ -299,9 +299,8 @@ class SQLiteDB(BaseDB):
                 error text,
                 stdout text,
                 stderr text)
-                """
-            % self.table
-        )
+                """, 
+        (self.table, ))
         self._db.commit()
 
     def _dict_to_list(self, d):
@@ -451,8 +450,8 @@ class SQLiteDB(BaseDB):
 
     def get_history(self):
         """get all msg_ids, ordered by time submitted."""
-        query = """SELECT msg_id FROM '%s' ORDER by submitted ASC""" % self.table
-        cursor = self._db.execute(query)
+        query = """SELECT msg_id FROM ? ORDER by submitted ASC"""
+        cursor = self._db.execute(query, (self.table, ))
         # will be a list of length 1 tuples
         return [tup[0] for tup in cursor.fetchall()]
 
